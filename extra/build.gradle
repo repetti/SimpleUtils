@@ -1,0 +1,54 @@
+apply plugin: 'java'
+
+sourceCompatibility = JavaVersion.VERSION_1_6
+targetCompatibility = JavaVersion.VERSION_1_6
+
+version = rootProject.version
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ["none"]
+        }
+    }
+    test {
+        java {
+            srcDirs = ["none"]
+        }
+    }
+}
+
+apply from: '../versions.gradle'
+
+dependencies {
+    compile rootProject
+//    compile fileTree (dir: 'lib', include: '*.jar')
+
+    compile group: 'org.apache.tomcat', name: 'tomcat-websocket-api', version: project.versionTomcat
+    compile group: 'org.jetbrains', name: 'annotations', version: project.versionAnnotations
+
+    compile group: 'org.mongodb', name: 'mongo-java-driver', version: project.versionMongo
+//    compile group: 'org.apache.logging.log4j', name: 'log4j', version: project.versionLog4j
+    compile group: 'org.codehaus.jackson', name: 'jackson-mapper-lgpl', version: project.versionJacksonOld
+//    compile group: 'org.codehaus.jackson', name: 'jackson-core-lgpl', version: project.versionJacksonOld
+
+//    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: project.versionJackson
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: project.versionJackson
+//    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: project.versionJackson
+    compile group: 'org.glassfish.jersey.core', name: 'jersey-server', version: project.versionJersey
+
+    compile group: 'org.slf4j', name: 'slf4j-api', version: project.versionSlf4j
+
+    compile group: 'org.apache.zookeeper', name: 'zookeeper', version: project.versionZookeeper
+
+    // org.slf4j.simpleLogger.defaultLogLevel - Default log level for all instances of SimpleLogger.
+    // Must be one of ("trace", "debug", "info", "warn", or "error"). If not specified, defaults to "info".
+    // http://www.slf4j.org/api/org/slf4j/impl/SimpleLogger.html
+    testRuntime group: 'org.slf4j', name: 'slf4j-simple', version: project.versionSlf4j
+
+    testCompile group: 'junit', name: 'junit', version: project.versionTestJunit
+}

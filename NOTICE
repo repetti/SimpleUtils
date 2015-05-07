@@ -1,0 +1,14 @@
+# SimpleUtils
+
+SimpleUtils is a utility package. Most of the classes use FasterXML Jackson (2.x) for data representation.
+The project aims to simplify Java application development in the meanings of configuration and data processing.
+
+## Licensing
+
+To find the details that apply to this artifact see the accompanying LICENSE file.
+
+## Credits
+
+A list of contributors may be found from CREDITS file, which might be included
+in the artifact (or source distributions); but is always available
+from the source code management (SCM) system project uses.
