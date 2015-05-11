@@ -1,4 +1,2 @@
-rootProject.name = 'SimpleUtils'
-
+include 'main'
 include 'extra'
-

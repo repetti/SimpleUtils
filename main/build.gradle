@@ -11,7 +11,7 @@ repositories {
     mavenCentral()
 }
 
-apply from: 'versions.gradle'
+apply from: '../versions.gradle'
 
 dependencies {
 //    compile fileTree (dir: 'lib', include: '*.jar')

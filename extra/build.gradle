@@ -3,29 +3,18 @@ apply plugin: 'java'
 sourceCompatibility = JavaVersion.VERSION_1_6
 targetCompatibility = JavaVersion.VERSION_1_6
 
-version = rootProject.version
+def mainProject = project(':main')
+
+version = mainProject.version
 
 repositories {
     mavenCentral()
 }
 
-sourceSets {
-    main {
-        java {
-            srcDirs = ["none"]
-        }
-    }
-    test {
-        java {
-            srcDirs = ["none"]
-        }
-    }
-}
-
 apply from: '../versions.gradle'
 
 dependencies {
-    compile rootProject
+    compile mainProject
 //    compile fileTree (dir: 'lib', include: '*.jar')
 
     compile group: 'org.apache.tomcat', name: 'tomcat-websocket-api', version: project.versionTomcat
