@@ -1,6 +1,5 @@
 package org.repetti.utils;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.nio.ByteBuffer;
@@ -15,49 +14,88 @@ import static org.junit.Assert.assertEquals;
  */
 public class StringHelperTest {
     private static final Random random = new Random();
+    private static final String[] zeros = {
+            "",
+            "0",
+            "00",
+            "000",
+            "0000",
+            "00000",
+            "000000",
+            "0000000",
+            "00000000",
+            "000000000",
+            "0000000000",
+            "00000000000",
+            "000000000000",
+            "0000000000000",
+            "00000000000000",
+            "000000000000000",
+    };
 
-    @Ignore
+    /**
+     * Compares with framework toHexString method from Long class
+     */
     @Test
-    public void testToHex() throws Exception {
-        for (int i = 0; i < 10; i++) {
+    public void testToHex() {
+        for (int i = 0; i < 20; i++) {
             long r = random.nextLong();
             byte[] b = new byte[8];
             ByteBuffer bb = ByteBuffer.wrap(b);
             bb.putLong(r);
-//            System.out.println(StringHelper.toHexString(b));
-//            System.out.println(Long.toHexString(r) + " / " + " = " + r + "\n");
-            //TODO  will fail on first numbers starting with '0' ?
-            assertEquals("now equal " + r, Long.toHexString(r), StringHelper.toHexString(b));
+            String expected = zeroExpand(Long.toHexString(r), 16);
+            final String actual = StringHelper.toHexString(b);
+//            System.out.println(expected + "\n" + actual);
+            assertEquals("now equal " + r, expected, actual);
         }
     }
 
-//    @Test
-//    public void testToOct() throws Exception {
-////        for (int i = 0; i < 10; i++) {
-////            byte r = (byte) random.nextInt();
-////            byte [] b = new byte[1];
-////            ByteBuffer bb = ByteBuffer.wrap( b );
-////            bb.put(r);
-////            System.out.println(StringHelper.toOctString(b));
-////            System.out.println(Long.toOctalString(r) + " / " + " = " + r + "\n");
-////        }
-//
-//        for (int i = 0; i < 10; i++) {
-//            int r = random.nextInt();
-//            byte [] b = new byte[4];
-//            ByteBuffer bb = ByteBuffer.wrap( b );
-//            bb.putInt(r);
-//            System.out.println(StringHelper.toEpamString(b));
-//            System.out.println(String.format("%11s", Integer.toOctalString(r)) + " / " + " = " + r + "\n");
+    private String zeroExpand(String original, int length) {
+
+        if (original.length() == length) {
+            return original;
+        }
+        int diff = length - original.length();
+        if (diff < zeros.length) {
+            return zeros[diff] + original;
+        } else {
+            // no need to optimize now
+            while (diff >= zeros.length) {
+                diff -= zeros.length - 1;
+                original = zeros[zeros.length - 1] + original;
+            }
+            return zeros[diff] + original;
+        }
+    }
+
+    @Test
+    public void testToOct() {
+        byte[] bytes;// = new byte[1];
+//        for (int i = 0; i < 20; i++) {
+//            random.nextBytes(bytes);
+//            final String actual = StringHelper.toOctString(bytes);
+//            final String expected = zeroExpand(Byte.toOctalString(bytes[0]), actual.length());
+//            assertEquals("now equal " + bytes[0], expected, actual);
 //        }
-//
-//        for (int i = 0; i < 10; i++) {
-//            long r = random.nextLong();
-//            byte [] b = new byte[8];
-//            ByteBuffer bb = ByteBuffer.wrap( b );
-//            bb.putLong(r);
-//            System.out.println(StringHelper.toEpamString(b));
-//            System.out.println(String.format("%22s", Long.toOctalString(r)) + " / " + " = " + r + "\n");
-//        }
-//    }
+        bytes = new byte[4];
+        for (int i = 0; i < 20; i++) {
+            int r = random.nextInt();
+            ByteBuffer bb = ByteBuffer.wrap(bytes);
+            bb.putInt(r);
+            final String actual = StringHelper.toOctString(bytes);
+            final String expected = zeroExpand(Integer.toOctalString(r), actual.length());
+            assertEquals("now equal " + r, expected, actual);
+            System.out.println(actual + "\n" + expected + " = " + r + "\n");
+        }
+        bytes = new byte[8];
+        for (int i = 0; i < 20; i++) {
+            long r = random.nextLong();
+            ByteBuffer bb = ByteBuffer.wrap(bytes);
+            bb.putLong(r);
+            final String actual = StringHelper.toOctString(bytes);
+            final String expected = zeroExpand(Long.toOctalString(r), actual.length());
+            assertEquals("now equal " + r, expected, actual);
+            System.out.println(actual + "\n" + expected + " = " + r + "\n");
+        }
+    }
 }
