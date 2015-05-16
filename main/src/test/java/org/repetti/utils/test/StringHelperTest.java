@@ -1,6 +1,7 @@
-package org.repetti.utils;
+package org.repetti.utils.test;
 
 import org.junit.Test;
+import org.repetti.utils.StringHelper;
 
 import java.nio.ByteBuffer;
 import java.util.Random;

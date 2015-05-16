@@ -1,9 +1,10 @@
 package org.repetti.utils;
 
-import java.security.SecureRandom;
 import java.util.Random;
 
 /**
+ * To generate passwords or other security related methods see SecurityHelper class.
+ *
  * Date: 7/28/14
  *
  * @author repetti
@@ -15,17 +16,15 @@ public class StringHelper {
     public static final String lettersAll = lettersBig + lettersSmall;
     private static final char[] base32 = "0123456789abcdefghijklmnopqrstuv".toCharArray();
 
-    private static final SecureRandom sr = new SecureRandom();
-
+    /**
+     * Generates quasi-random String of given length.
+     * To generate passwords use SecurityHelper class.
+     *
+     * @param letters   string containing symbols for new string
+     * @param length    length of the result string
+     * @return          generated string
+     */
     public static String generateString(final String letters, int length) {
-        StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            sb.append(letters.charAt(r.nextInt(letters.length())));
-        }
-        return sb.toString();
-    }
-
-    public static String generateSecureWord(final String letters, int length) {
         StringBuilder sb = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
             sb.append(letters.charAt(r.nextInt(letters.length())));

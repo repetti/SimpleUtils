@@ -1,7 +1,10 @@
-package org.repetti.utils;
+package org.repetti.utils.test;
 
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.repetti.utils.LoggerHelperSlf4j;
+import org.repetti.utils.ResourceHelper;
 
 import static org.junit.Assert.assertEquals;
 
@@ -20,7 +23,7 @@ public class ResourceHelperTests {
 
     @Test
     public void testReadFile() throws Exception {
-        assertEquals(TEXT, ResourceHelper.readFile(FILE_RESOURCES));
+        Assert.assertEquals(TEXT, ResourceHelper.readFile(FILE_RESOURCES));
         assertEquals(TEXT, ResourceHelper.readFile(FILE_CURRENT));
     }
 }
