@@ -2,11 +2,14 @@ package org.repetti.utils.test;
 
 import org.junit.Test;
 import org.repetti.utils.StringHelper;
+import org.repetti.utils.exceptions.ParseException;
 
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Random;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Date: 23/04/15
@@ -98,5 +101,30 @@ public class StringHelperTest {
             assertEquals("now equal " + r, expected, actual);
             System.out.println(actual + "\n" + expected + " = " + r + "\n");
         }
+    }
+
+    @Test
+    public void testParseHex() throws ParseException {
+        byte[] tmp;
+
+        tmp = new byte[]{(byte) 0xAD, (byte) 0xA8, (byte) 0xDE, (byte) 0xAD, (byte) 0xBE, (byte) 0xEF};
+        compareByteArrays(tmp, StringHelper.parseHexString("ada8deadbeef"));
+
+        tmp = new byte[]{10, 13, 15, 0, -1, -128, 42, 127};
+        compareByteArrays(tmp, StringHelper.parseHexString(StringHelper.toHexString(tmp)));
+    }
+
+    private static boolean compareByteArrays(byte[] expected, byte[] actual) {
+        if (expected.length != actual.length) {
+            fail("wrong length, exp=" + Arrays.toString(expected) + ", act=" + Arrays.toString(actual));
+            throw new IllegalArgumentException("wrong length " + expected.length + ":" + actual.length);
+        }
+        for (int i = 0; i < expected.length; i++) {
+            if (expected[i] != actual[i]) {
+                fail("exp=" + Arrays.toString(expected) + ", act=" + Arrays.toString(actual));
+                return false;
+            }
+        }
+        return true;
     }
 }

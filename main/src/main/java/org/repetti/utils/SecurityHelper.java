@@ -114,18 +114,6 @@ public class SecurityHelper {
         return String.valueOf(ret);
     }
 
-    private static String getConsonant() {
-        return CONSONANTS[r.nextInt(CONSONANTS.length)];
-    }
-
-    private static String getVowel() {
-        return VOWELS[r.nextInt(VOWELS.length)];
-    }
-
-    private static String getSymbol() {
-        return SYMBOLS[r.nextInt(SYMBOLS.length)];
-    }
-
     /**
      * Generates N words.
      * vc, cvc, ccv, cvv (cvs)
@@ -179,5 +167,28 @@ public class SecurityHelper {
             sb.append(getSymbol());
         }
         return sb.toString();
+    }
+
+    private static String getVowel() {
+        return VOWELS[r.nextInt(VOWELS.length)];
+    }
+
+    private static String getConsonant() {
+        return CONSONANTS[r.nextInt(CONSONANTS.length)];
+    }
+
+    private static String getSymbol() {
+        return SYMBOLS[r.nextInt(SYMBOLS.length)];
+    }
+
+    /**
+     * Generates hex string representation of salt
+     * @param bytes salt size in bytes
+     * @return hex string
+     */
+    public static String generateSaltHex(int bytes) {
+        final byte[] salt = new byte[bytes];
+        r.nextBytes(salt);
+        return StringHelper.toHexString(salt);
     }
 }

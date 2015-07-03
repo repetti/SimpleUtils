@@ -1,5 +1,7 @@
 package org.repetti.utils;
 
+import org.repetti.utils.exceptions.ParseException;
+
 import java.util.Random;
 
 /**
@@ -28,6 +30,14 @@ public class StringHelper {
         StringBuilder sb = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
             sb.append(letters.charAt(r.nextInt(letters.length())));
+        }
+        return sb.toString();
+    }
+
+    public static String generateString(int length, final String... letters) {
+        StringBuilder sb = new StringBuilder();
+        while (length-- > 0) {
+            sb.append(letters[r.nextInt(letters.length)]);
         }
         return sb.toString();
     }
@@ -84,5 +94,57 @@ public class StringHelper {
             }
         }
         return String.valueOf(res);
+    }
+
+    public static byte[] parseHexString(String str) throws ParseException {
+        final int length = str.length();
+        if (length % 2 != 0) {
+            throw new ParseException("String length should be even");
+        }
+        byte[] ret = new byte[str.length() / 2];
+        char[] a = str.toCharArray();
+        for (int i = 0; i < ret.length; i++) {
+            ret[i] = (byte) ((fromHexChar(a[i * 2]) << 4) | fromHexChar(a[i * 2 + 1]));
+        }
+        return ret;
+    }
+
+    private static int fromHexChar(char c) throws ParseException {
+        switch (c) {
+            case '0':
+                return 0;
+            case '1':
+                return 1;
+            case '2':
+                return 2;
+            case '3':
+                return 3;
+            case '4':
+                return 4;
+            case '5':
+                return 5;
+            case '6':
+                return 6;
+            case '7':
+                return 7;
+            case '8':
+                return 8;
+            case '9':
+                return 9;
+            case 'a':
+                return 10;
+            case 'b':
+                return 11;
+            case 'c':
+                return 12;
+            case 'd':
+                return 13;
+            case 'e':
+                return 14;
+            case 'f':
+                return 15;
+            default:
+                throw new ParseException("not hex character " + c);
+        }
     }
 }

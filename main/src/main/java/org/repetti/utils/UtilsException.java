@@ -1,6 +1,8 @@
 package org.repetti.utils;
 
 /**
+ * The only exception to be thrown by utils.
+ *
  * @author repetti
  */
 public class UtilsException extends Exception {
