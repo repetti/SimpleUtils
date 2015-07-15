@@ -1,5 +1,11 @@
 package org.repetti.utils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Random;
 
@@ -190,5 +196,46 @@ public class SecurityHelper {
         final byte[] salt = new byte[bytes];
         r.nextBytes(salt);
         return StringHelper.toHexString(salt);
+    }
+
+    public static byte[] sha256(byte[] s) throws UtilsException {
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw UtilsException.Type.UNDEFINED.build("Initialisation problem", e); //TODO specify
+        }
+        return md.digest(s);
+    }
+
+    public static byte[] sha256(File f) throws UtilsException {
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw UtilsException.Type.UNDEFINED.build("Initialisation problem", e); //TODO specify
+        }
+        FileInputStream fileInputStream;
+        try {
+            fileInputStream = new FileInputStream(f);
+        } catch (FileNotFoundException e) {
+            throw UtilsException.Type.NOT_FOUND.build("File not found: " + f.getAbsolutePath(), e);
+        }
+        byte[] bytes = new byte[512 * 32];
+        try {
+            int read;
+            while ((read = fileInputStream.read(bytes)) != -1) {
+                md.update(bytes, 0, read);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fileInputStream.close();
+            } catch (Exception ignore) {
+            }
+        }
+
+        return md.digest();
     }
 }

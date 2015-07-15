@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 public class ResourceHelperTests {
     public static final String TEXT = "test";
     public static final String FILE_RESOURCES = "atResource.txt";
-    public static final String FILE_CURRENT = "src/test/resources/" + FILE_RESOURCES;
+    public static final String FILE_CURRENT = "main/src/test/resources/" + FILE_RESOURCES;
 
     @BeforeClass
     public static void beforeClass() {

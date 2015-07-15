@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import org.jetbrains.annotations.Nullable;
+import org.repetti.utils.exceptions.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -342,13 +343,13 @@ public class JsonHelper {
         return defaultValue;
     }
 
-    public static String getString(ObjectNode o, String field) throws UtilsException {
+    public static String getString(ObjectNode o, String field) throws ParseException, UtilsException {
         if (o.has(field)) {
             JsonNode ret = o.get(field);
             if (ret.isTextual()) {
                 return ret.asText();
             }
-            throw new UtilsException(UtilsException.Type.PARSING, field + " is not textual", null);
+            throw new ParseException(field + " is not textual");
         }
         throw new UtilsException(UtilsException.Type.PARAMETERS, field + " not found", null);
     }
@@ -369,24 +370,24 @@ public class JsonHelper {
         throw new UtilsException(UtilsException.Type.PARAMETERS, field + " not found", null);
     }
 
-    public static ObjectNode getObject(ObjectNode o, String field) throws UtilsException {
+    public static ObjectNode getObject(ObjectNode o, String field) throws ParseException, UtilsException {
         if (o.has(field)) {
             JsonNode ret = o.get(field);
             if (ret.isObject()) {
                 return (ObjectNode) ret;
             }
-            throw new UtilsException(UtilsException.Type.PARSING, field + " is not an object node", null);
+            throw new ParseException(field + " is not an object node");
         }
         throw new UtilsException(UtilsException.Type.PARAMETERS, field + " not found", null);
     }
 
-    public static int getInteger(ObjectNode o, String field) throws UtilsException {
+    public static int getInteger(ObjectNode o, String field) throws ParseException, UtilsException {
         if (o.has(field)) {
             JsonNode ret = o.get(field);
             if (ret.isInt()) {
                 return ret.asInt();
             }
-            throw new UtilsException(UtilsException.Type.PARSING, field + " is not an integer", null);
+            throw new ParseException(field + " is not an integer");
         }
         throw new UtilsException(UtilsException.Type.PARAMETERS, field + " not found", null);
     }
