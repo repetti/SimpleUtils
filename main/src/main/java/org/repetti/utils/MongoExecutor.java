@@ -93,6 +93,25 @@ public class MongoExecutor {
         }
     }
 
+    //FIXME or remove
+    public static DBObject update(@NotNull DBCollection dbCollection, @NotNull DBObject query, @NotNull DBObject object,
+                                  boolean upsert, boolean multi) throws DatabaseException {
+        log.trace("update(q={},o={},u={},m={})", query, object, upsert, multi);
+        try {
+            if (upsert
+                    && !object.containsField(UtilsConstants.MONGO_PRIMARY_KEY)
+                    && !query.containsField(UtilsConstants.MONGO_PRIMARY_KEY)) {
+                ObjectId id = new ObjectId();
+                log.trace("update: id will be added = {}", id);
+                object.put(UtilsConstants.MONGO_PRIMARY_KEY, id.toString());
+            }
+            dbCollection.update(query, new BasicDBObject("$set", object), upsert, multi, defaultConcern);
+            return object;
+        } catch (MongoException e) {
+            throw processException(e, "update");
+        }
+    }
+
     public static DBObject findAndUpdate(DBCollection dbCollection, String id, String updateField, Object value) {
         BasicDBObject query = new BasicDBObject();
         query.put(UtilsConstants.MONGO_PRIMARY_KEY, id);
@@ -193,8 +212,15 @@ public class MongoExecutor {
         return getObject(dbCollection, id, field) == Boolean.TRUE;
     }
 
-    public static DBCursor findCursor(@NotNull DBCollection dbCollection, @NotNull BasicDBObject query) throws DatabaseException {
+    /**
+     * Returns cursor, having only id's of objects found
+     */
+    public static DBCursor findCursorId(@NotNull DBCollection dbCollection, @NotNull BasicDBObject query) throws DatabaseException {
         return dbCollection.find(query, new BasicDBObject(UtilsConstants.MONGO_PRIMARY_KEY, 1));
+    }
+
+    public static DBCursor findCursor(@NotNull DBCollection dbCollection, @NotNull BasicDBObject query) throws DatabaseException {
+        return dbCollection.find(query);
     }
 
     public static DBCursor findCursor(@NotNull DBCollection dbCollection, @NotNull BasicDBObject query, @NotNull String... fields) throws DatabaseException {

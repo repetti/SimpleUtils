@@ -4,6 +4,7 @@ project.ext {
     versionUtil = "1.12.0"
 
     versionAnnotations = "13.0"
+    versionGuava = "18.0"
     versionJackson = "2.4.2"
     versionJacksonOld = "1.9.13"
     versionJersey = "2.13"

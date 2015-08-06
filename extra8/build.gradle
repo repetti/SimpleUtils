@@ -1,21 +1,23 @@
 apply plugin: 'java'
 
-sourceCompatibility = JavaVersion.VERSION_1_6
-targetCompatibility = JavaVersion.VERSION_1_6
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
-archivesBaseName = 'simple-utils'
-group = 'org.repetti'
-version = '0.5.1'
+def mainProject = project(':main')
+
+version = mainProject.version
 
 repositories {
     mavenCentral()
 }
 
-apply from: '../versions.gradle'
+apply from: rootProject.file('version.gradle') //'../versions.gradle'
 
 dependencies {
+    compile mainProject
 //    compile fileTree (dir: 'lib', include: '*.jar')
 
+    compile group: 'org.apache.tomcat', name: 'tomcat-websocket-api', version: project.versionTomcat
     compile group: 'org.jetbrains', name: 'annotations', version: project.versionAnnotations
 
     compile group: 'org.mongodb', name: 'mongo-java-driver', version: project.versionMongo
@@ -30,6 +32,8 @@ dependencies {
 
     compile group: 'org.slf4j', name: 'slf4j-api', version: project.versionSlf4j
 
+    compile group: 'org.apache.zookeeper', name: 'zookeeper', version: project.versionZookeeper
+
     // org.slf4j.simpleLogger.defaultLogLevel - Default log level for all instances of SimpleLogger.
     // Must be one of ("trace", "debug", "info", "warn", or "error"). If not specified, defaults to "info".
     // http://www.slf4j.org/api/org/slf4j/impl/SimpleLogger.html
@@ -37,16 +41,4 @@ dependencies {
 
     testCompile group: 'junit', name: 'junit', version: project.versionTestJunit
     testCompile group: 'com.google.guava', name: 'guava', version: project.versionGuava
-}
-
-jar {
-    manifest {
-
-        attributes(
-                'Main-Class': 'org.repetti.utils.Main',
-                'Specification-Title': 'Simple Utils',
-                'Specification-Version': version,
-                'Implementation-Title': 'org.repetti.simple-utils',
-        )
-    }
 }

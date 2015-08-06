@@ -2,6 +2,8 @@
 * SecurityHelper added
 * StringHelper.parseHexString
 * ParseException
+* SecurityHelper +sha 256/512
+* MongoExecutor +update
 
 # 0.5 @ 2015.05
 * initial release

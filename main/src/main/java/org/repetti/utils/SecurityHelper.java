@@ -199,19 +199,35 @@ public class SecurityHelper {
     }
 
     public static byte[] sha256(byte[] s) throws UtilsException {
+        return sha(s, "SHA-256");
+    }
+
+    public static byte[] sha(byte[] s, String method) throws UtilsException {
         MessageDigest md;
         try {
-            md = MessageDigest.getInstance("SHA-256");
+            md = MessageDigest.getInstance(method);
         } catch (NoSuchAlgorithmException e) {
             throw UtilsException.Type.UNDEFINED.build("Initialisation problem", e); //TODO specify
         }
         return md.digest(s);
+
     }
 
-    public static byte[] sha256(File f) throws UtilsException {
+    public static byte[] sha512(byte[] s) throws UtilsException {
+        return sha(s, "SHA-512");
+    }
+
+    public static byte[] sha256(File f, long[] bytesRead) throws UtilsException {
+        return sha(f, "SHA-256", 512 * 32, bytesRead);
+    }
+
+    public static byte[] sha(File f, String method, int blockSize, long[] bytesRead) throws UtilsException {
+        if (bytesRead.length != 1) {
+            throw new UtilsException(UtilsException.Type.PARAMETERS, "bytesRead shuold be of size 1", null);
+        }
         MessageDigest md;
         try {
-            md = MessageDigest.getInstance("SHA-256");
+            md = MessageDigest.getInstance(method);
         } catch (NoSuchAlgorithmException e) {
             throw UtilsException.Type.UNDEFINED.build("Initialisation problem", e); //TODO specify
         }
@@ -221,10 +237,11 @@ public class SecurityHelper {
         } catch (FileNotFoundException e) {
             throw UtilsException.Type.NOT_FOUND.build("File not found: " + f.getAbsolutePath(), e);
         }
-        byte[] bytes = new byte[512 * 32];
+        byte[] bytes = new byte[blockSize];
         try {
             int read;
             while ((read = fileInputStream.read(bytes)) != -1) {
+                bytesRead[0] += read;
                 md.update(bytes, 0, read);
             }
         } catch (IOException e) {
@@ -237,5 +254,9 @@ public class SecurityHelper {
         }
 
         return md.digest();
+    }
+
+    public static byte[] sha512(File f, long[] bytesRead) throws UtilsException {
+        return sha(f, "SHA-512", 512 * 32, bytesRead);
     }
 }
