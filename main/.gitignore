@@ -2,3 +2,5 @@
 /.idea
 /.gradle
 /*.iml
+*.jar
+/src/test/resources/data.json

@@ -8,5 +8,6 @@ import org.repetti.utils.SecurityHelper;
 public class PasswordGenerator {
     public static void main(String[] args) {
         System.out.println(SecurityHelper.generateReadablePassword(5, 4, 3, 2, 1));
+        System.out.println(SecurityHelper.generateReadablePassword(3, 3, 3, 3, 3));
     }
 }

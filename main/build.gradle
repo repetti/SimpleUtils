@@ -1,14 +1,14 @@
 apply plugin: 'java'
 
-sourceCompatibility = JavaVersion.VERSION_1_6
-targetCompatibility = JavaVersion.VERSION_1_6
+sourceCompatibility = JavaVersion.VERSION_1_7
+targetCompatibility = JavaVersion.VERSION_1_7
 
 archivesBaseName = 'simple-utils'
 group = 'org.repetti'
 version = '0.5.1'
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 apply from: '../versions.gradle'
@@ -19,13 +19,8 @@ dependencies {
     compile group: 'org.jetbrains', name: 'annotations', version: project.versionAnnotations
 
     compile group: 'org.mongodb', name: 'mongo-java-driver', version: project.versionMongo
-//    compile group: 'org.apache.logging.log4j', name: 'log4j', version: project.versionLog4j
-    compile group: 'org.codehaus.jackson', name: 'jackson-mapper-lgpl', version: project.versionJacksonOld
-//    compile group: 'org.codehaus.jackson', name: 'jackson-core-lgpl', version: project.versionJacksonOld
 
-//    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: project.versionJackson
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: project.versionJackson
-//    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: project.versionJackson
     compile group: 'org.glassfish.jersey.core', name: 'jersey-server', version: project.versionJersey
 
     compile group: 'org.slf4j', name: 'slf4j-api', version: project.versionSlf4j

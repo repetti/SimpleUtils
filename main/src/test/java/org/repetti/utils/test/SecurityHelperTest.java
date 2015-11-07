@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.nio.file.Files;
 
 import static org.junit.Assert.assertEquals;
 
@@ -28,7 +29,9 @@ public class SecurityHelperTest {
         String s = ResourceHelper.readFile(ResourceHelperTests.FILE_RESOURCES);
         log.debug("filename: {}\noriginal text: {}", f.getAbsolutePath(), s);
 
-        final String shaFile = StringHelper.toHexString(SecurityHelper.sha256(f));
+        byte[] data = Files.readAllBytes(f.toPath());
+
+        final String shaFile = StringHelper.toHexString(SecurityHelper.sha256(data));
         final String shaBytes = StringHelper.toHexString(SecurityHelper.sha256(s.getBytes()));
         log.debug("shaFile:  {}\nshaBytes: {}", shaFile, shaBytes);
 

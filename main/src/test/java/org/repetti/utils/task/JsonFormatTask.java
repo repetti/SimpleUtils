@@ -22,4 +22,15 @@ public class JsonFormatTask {
 
         ResourceHelper.writeFile(f, res);
     }
+
+    /**
+     * Other way around
+     */
+    public static void main2() throws UtilsException {
+//        File f = ResourceHelper.getFile()
+        String json = ResourceHelper.readFile("data.json");
+
+        System.out.println((JsonHelper.printFormatted(JsonHelper.parse(json))));
+//        ResourceHelper.writeFile(JsonHelper.printFormatted(JsonHelper.parse(json)));
+    }
 }

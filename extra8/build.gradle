@@ -11,7 +11,7 @@ repositories {
     mavenCentral()
 }
 
-apply from: rootProject.file('version.gradle') //'../versions.gradle'
+apply from: rootProject.file('versions.gradle')
 
 dependencies {
     compile mainProject
